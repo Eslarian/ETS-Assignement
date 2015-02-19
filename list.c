@@ -27,6 +27,7 @@ BOOLEAN add_node(struct list * list,void * data)
 	struct node * newNode = malloc(sizeof(struct node));
 	struct node * searchNode;
 	int i;
+B
 
 	newNode->next = NULL;
 	newNode->data = data;
