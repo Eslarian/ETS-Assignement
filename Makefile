@@ -18,8 +18,11 @@ HEADERS=*h
 ###################################
 all: $(TARGETS) 
 
+warning: *.c
+	$(CC) $(CFLAGS) $^ -o ETS
+
 ETS: ets_main.o ets_menu.o ets_options.o file_load.o list.o compare.o ets_utility.o
-	$(CC) $(CFLAGS) ets_main.o ets_menu.o ets_options.o file_load.o list.o compare.o ets_utility.o -o ETS
+	$(CC) $(CFLAGS) $^ -o $@
 
 ets_main.o:ets_main.c ets_menu.h
 	$(CC) $(CFLAGS) -c ets_main.c

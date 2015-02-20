@@ -11,6 +11,12 @@
 
 #include "list.h"
 
+typedef enum operations
+{
+	SEARCHING, ADDING_NODE
+}OPERATIONS;
+
+
 
 int member_cmp(struct node * node, char * string);
 int equipment_cmp(struct node * node, char * string);

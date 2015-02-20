@@ -10,3 +10,7 @@
  **********************************************************************/
 
 
+int member_cmp();
+int equipment_cmp(struct node * node, char * string);
+int loan_cmp(struct node * node, char * string);
+

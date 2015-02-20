@@ -114,7 +114,7 @@ BOOLEAN check_equipment(char * firstToken, char * secondToken, char * thirdToken
 		{
 			for(i = 1; i < strlen(firstToken);i++)
 			{
-				if(isdigit(firstToken[i]) == 0)
+				if(isdigit((int)firstToken[i]) == 0)
 				{
 					return FALSE;
 				} 
@@ -127,7 +127,7 @@ BOOLEAN check_equipment(char * firstToken, char * secondToken, char * thirdToken
 
 			for(i = 0; i<strlen(thirdToken);i++)
 			{
-				if(isdigit(thirdToken[i]) == 0)
+				if(isdigit((int)thirdToken[i]) == 0)
 				{
 					return FALSE;
 				} 
@@ -160,7 +160,7 @@ BOOLEAN check_members(char * firstToken, char * secondToken, char * thirdToken, 
 			
 			for(i = 1; i < strlen(firstToken);i++)
 			{
-				if(isdigit(firstToken[i]) == 0)
+				if(isdigit((int)firstToken[i]) == 0)
 				{
 					return FALSE;
 				} 
@@ -198,7 +198,7 @@ BOOLEAN check_loans(char * firstToken, char * secondToken, char * thirdToken, st
 		{ 
 			for(i = 1; i < strlen(firstToken);i++)
 			{
-				if(isdigit(firstToken[i]) == 0)
+				if(isdigit((int)firstToken[i]) == 0)
 					return FALSE;
 			}
 			if(strlen(secondToken) == ID_LEN)
@@ -207,12 +207,12 @@ BOOLEAN check_loans(char * firstToken, char * secondToken, char * thirdToken, st
 				{
 					for(i = 1; i < strlen(secondToken);i++)
 					{
-						if(isdigit(secondToken[i]) == 0)
+						if(isdigit((int)secondToken[i]) == 0)
 							return FALSE;
 					}
 					for(i = 0; i<strlen(thirdToken);i++)
 					{
-						if(isdigit(thirdToken[i]) == 0)
+						if(isdigit((int)thirdToken[i]) == 0)
 							return FALSE;
 					}
 
@@ -251,7 +251,7 @@ BOOLEAN is_valid_string(char * token)
 				case ')': 
 					   break;
 			
-				default: if(isalpha(token[i]) == 0)
+				default: if(isalpha((int)token[i]) == 0)
 					 return FALSE;
 					 break;
 			} 
@@ -267,15 +267,15 @@ BOOLEAN is_valid_string(char * token)
 DATA_TYPE check_type(char * firstToken, char * thirdToken)
 {
 	
-	if(firstToken[0] == 'E' && isdigit(thirdToken[0]) != 0)/*Check to see if it is an equipment file*/
+	if(firstToken[0] == 'E' && isdigit((int)thirdToken[0]) != 0)/*Check to see if it is an equipment file*/
 	{	
 		return EQUIPMENT;
 	}
-	if(firstToken[0] == 'M' && isalpha(thirdToken[0]) != 0)/*Check to see if it is a members file*/
+	if(firstToken[0] == 'M' && isalpha((int)thirdToken[0]) != 0)/*Check to see if it is a members file*/
 	{
 		return MEMBER;
 	}
-	if(firstToken[0] == 'M' && isdigit(thirdToken[0]) != 0)/*Check to see if it is a loans file*/
+	if(firstToken[0] == 'M' && isdigit((int)thirdToken[0]) != 0)/*Check to see if it is a loans file*/
 	{
 		return LOAN;
 	}

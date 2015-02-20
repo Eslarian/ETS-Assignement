@@ -55,5 +55,5 @@ struct member
 	char fName[NAME_LEN+1];
 	char lName[NAME_LEN+1];
 }; 
-	
+
 #endif
