@@ -28,6 +28,7 @@ BOOLEAN add_node(struct list * list,void * data)
 	struct node * searchNode;
 	int i;
 
+
 	newNode->next = NULL;
 	newNode->data = data;
 
