@@ -114,7 +114,7 @@ BOOLEAN check_equipment(char * firstToken, char * secondToken, char * thirdToken
 		{
 			for(i = 1; i < strlen(firstToken);i++)
 			{
-				if(isdigit((int)firstToken[i]) == 0)
+				if(isdigit(firstToken[i]) == 0)
 				{
 					return FALSE;
 				} 
@@ -127,7 +127,7 @@ BOOLEAN check_equipment(char * firstToken, char * secondToken, char * thirdToken
 
 			for(i = 0; i<strlen(thirdToken);i++)
 			{
-				if(isdigit((int)thirdToken[i]) == 0)
+				if(isdigit(thirdToken[i]) == 0)
 				{
 					return FALSE;
 				} 

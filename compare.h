@@ -13,11 +13,10 @@
 
 typedef enum operations
 {
-	SEARCHING, ADDING_NODE
+	SEARCHING_MEMBER, SEARCHING_EQUIPMENT, SEARCHING_LOAN,
+	ADDING_NODE_MEMBER, ADDING_NODE_EQUIPMENT, ADDING_NODE_LOAN
 }OPERATIONS;
 
 
 
-int member_cmp(struct node * node, char * string);
-int equipment_cmp(struct node * node, char * string);
-int loan_cmp(struct node * node, char * string);
+int comparison(void ** aData, void ** bData, OPERATIONS type);

@@ -17,14 +17,18 @@ BOOLEAN loan_equipment(struct ets * ets)
 	char memID[ID_LEN+2];
 	char equipID[ID_LEN+2];
 	char qtyString[AMOUNT_LEN+2];
-	int quantity;
-	struct member * member;  
-	
+	void * aData = ets->members->head->data;
+	/*int quantity;
+	struct member * member;*/  
+	char * string = "String";	
+	void * bData = string;
+
 	
 	printf("%sLOAN EQUIPMENT\n---------------\n%s",COLOR_TITLE,COLOR_RESET);
 
 	do{
-	
+
+	comparison(aData,bData,SEARCHING_MEMBER);
 	printf("Please enter a memmber ID: \n");
 	fgets(memID,ID_LEN+2,stdin);
 	if(RROL(memID) != '\n')

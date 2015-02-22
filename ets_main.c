@@ -51,7 +51,7 @@ int main(int argc, char * argv[])
 
     		if(endptr[0]!= '\n')
 		{
-			fprintf(stderr,"%sYou entered an invalid option!%s\n",COLOR_BLUE,COLOR_RESET);
+			fprintf(stderr,"%sYou entered an invalid option!%s\n",COLOR_ERROR,COLOR_RESET);
 			continue;
 		} 
 	
