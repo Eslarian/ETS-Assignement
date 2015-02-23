@@ -22,7 +22,7 @@
 #define LINE_LEN 60
 #define COLOR_TITLE	"\x1b[0;31m"	/* red */
 #define COLOR_RESET     "\x1b[0m"
-#define COLOR_ERROR     "\x1b[2;34m"    /* blue */
+#define COLOR_ERROR     "\x1b[1;34m"  /* blue */
 #define INPUT_LEN 2
 #define RROL(x) x[strlen(x)-1]  /* Macro used to check last characther of a string */
 

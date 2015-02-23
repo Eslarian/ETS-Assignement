@@ -70,23 +70,23 @@ BOOLEAN load_data(struct ets * ets, const char * equip_fname, const char * membe
 		{
 			case EQUIPMENT:	if(check_equipment(firstToken,secondToken,thirdToken,ets->equipment) == FALSE)
 					{
-					fprintf(stderr,"Invalid line in file: %s",linecpy);
-					return FALSE;
+					fprintf(stderr,"%sInvalid line in file: %s%s",COLOR_ERROR,linecpy,COLOR_RESET);
+					exit(0);
 					}break;
 	
 			case MEMBER: if(check_members(firstToken,secondToken,thirdToken,ets->members) == FALSE)
 				      {
-					fprintf(stderr,"Invalid line in file: %s",linecpy);
+					fprintf(stderr,"%sInvalid line in file: %s%s",COLOR_ERROR,linecpy,COLOR_RESET);
 					return FALSE;
 				      }break;
 
 			case LOAN: if(check_loans(firstToken,secondToken,thirdToken,ets->loans) == FALSE)
 				    {
-				     	fprintf(stderr,"Invalid line in file: %s",linecpy);
+				     	fprintf(stderr,"%sInvalid line in file: %s%s",COLOR_ERROR,linecpy,COLOR_RESET);
 				    	return FALSE;
 				    }break;
 			
-			case INVALID:fprintf(stderr,"Invalid line in file: %s",linecpy);
+			case INVALID:fprintf(stderr,"%sInvalid line in file: %s%s",COLOR_ERROR,linecpy,COLOR_RESET);
 				     break;
 		} 
 
