@@ -11,18 +11,18 @@
 
 #include "compare.h"
 
-int comparison(void ** aData, void ** bData, OPERATIONS type)
+int comparison(void * aData, void * bData, OPERATIONS type)
 {	
 	char * aString;
 	char * bString;
-	struct member * memDereference = (struct member*)(void*)aData;
+	struct member * memDereference = aData;
 
 
 	switch(type)
 	{
 		
 		case SEARCHING_MEMBER:  aString = memDereference->fName;
-					bString = (char *)(void*)bData;
+					bString = (char *)bData;
 					break;
 
 		case SEARCHING_EQUIPMENT: break;

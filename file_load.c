@@ -56,7 +56,7 @@ BOOLEAN load_data(struct ets * ets, const char * equip_fname, const char * membe
 				 return FALSE;
 		} 
 		count++;
-		token = strtok(NULL,"|\n");
+		token = strtok(NULL,"|\r\n");
 
 		} 
 		if(count != 3)
@@ -96,8 +96,7 @@ BOOLEAN load_data(struct ets * ets, const char * equip_fname, const char * membe
 	fclose(files[0]);
 	fclose(files[1]);
 	fclose(files[2]);
-	equip = ets->equipment->head->next->next->data;
-	printf("Equip: %s\n",equip->equipName);
+	
 	return TRUE;
 } 
 

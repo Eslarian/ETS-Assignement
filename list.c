@@ -79,7 +79,6 @@ void free_list(struct list * list)
 	while(!curr)
 	{
 		next = curr->next;
-		free(curr->next);
 		free(curr->data);
 		free(curr);
 		curr = next;

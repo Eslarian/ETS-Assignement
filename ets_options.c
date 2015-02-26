@@ -166,7 +166,8 @@ BOOLEAN delete_member(struct ets * ets)
 } 
 BOOLEAN abort_ets(struct ets * ets)
 {
+	free_list(ets);
+	exit(0);
 	
-	UNUSED(ets);
 	return FALSE;
 } 
