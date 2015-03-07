@@ -23,10 +23,8 @@ BOOLEAN load_data(struct ets * ets, const char * equip_fname, const char * membe
 	char firstToken[NAME_LEN];
 	char secondToken[NAME_LEN];
 	char thirdToken[NAME_LEN];
-
 	char linecpy[LINE_LEN];
-	struct equipment * equip;
-
+	
 
         files[0] = fopen(equip_fname,"r");
         files[1] = fopen(member_fname,"r");
@@ -77,13 +75,13 @@ BOOLEAN load_data(struct ets * ets, const char * equip_fname, const char * membe
 			case MEMBER: if(check_members(firstToken,secondToken,thirdToken,ets->members) == FALSE)
 				      {
 					fprintf(stderr,"%sInvalid line in file: %s%s",COLOR_ERROR,linecpy,COLOR_RESET);
-					return FALSE;
+					exit(0);
 				      }break;
 
 			case LOAN: if(check_loans(firstToken,secondToken,thirdToken,ets->loans) == FALSE)
 				    {
 				     	fprintf(stderr,"%sInvalid line in file: %s%s",COLOR_ERROR,linecpy,COLOR_RESET);
-				    	return FALSE;
+				    	exit(0);
 				    }break;
 			
 			case INVALID:fprintf(stderr,"%sInvalid line in file: %s%s",COLOR_ERROR,linecpy,COLOR_RESET);
@@ -105,19 +103,10 @@ BOOLEAN check_equipment(char * firstToken, char * secondToken, char * thirdToken
 {	
 	
 	struct equipment * equipmentData; 
-	int i;
+	int i;	
 
-	if(strlen(firstToken) == ID_LEN)
-	{
-		if(firstToken[0] == 'E')
-		{
-			for(i = 1; i < strlen(firstToken);i++)
-			{
-				if(isdigit(firstToken[i]) == 0)
-				{
-					return FALSE;
-				} 
-			} 
+	if(check_equip_ID(firstToken)) 
+	{ 
 			
 			if(is_valid_string(secondToken) == FALSE)
 			{
@@ -139,49 +128,37 @@ BOOLEAN check_equipment(char * firstToken, char * secondToken, char * thirdToken
 			equipmentData->amount = strtol(thirdToken,NULL,10);
 			add_node(equipment,equipmentData);
 			return TRUE;
-		} 
 	} 
-					
-					
-
+	
 	return FALSE;
 }
 
 BOOLEAN check_members(char * firstToken, char * secondToken, char * thirdToken, struct list * members)
 {
 	struct member * memberData;
-	int i;
-	
-	if(strlen(firstToken) == ID_LEN)
+
+
+	if(check_member_ID(firstToken))
 	{
-		if(firstToken[0] == 'M') 
+		
+		if(is_valid_string(secondToken) == FALSE)
 		{
+			return FALSE;
+		} 
+		if(is_valid_string(secondToken) == FALSE)
+		{
+			return FALSE;
+		} 
 			
-			for(i = 1; i < strlen(firstToken);i++)
-			{
-				if(isdigit((int)firstToken[i]) == 0)
-				{
-					return FALSE;
-				} 
-			} 
-			if(is_valid_string(secondToken) == FALSE)
-			{
-				return FALSE;
-			} 
-			if(is_valid_string(secondToken) == FALSE)
-			{
-				return FALSE;
-			} 
+		memberData = malloc(sizeof(struct member));
+		strcpy(memberData->ID,firstToken);
+		strcpy(memberData->lName,secondToken);
+		strcpy(memberData->fName,thirdToken);
+		add_node(members,memberData);
+		return TRUE;
 			
-			memberData = malloc(sizeof(struct member));
-			strcpy(memberData->ID,firstToken);
-			strcpy(memberData->lName,secondToken);
-			strcpy(memberData->fName,thirdToken);
-			add_node(members,memberData);
-			return TRUE;
-			
-		}
 	}
+	
 	return FALSE;
 } 
 
@@ -190,45 +167,26 @@ BOOLEAN check_loans(char * firstToken, char * secondToken, char * thirdToken, st
 	struct loan * loanData;
 	int i;
 
-	if(strlen(firstToken) == ID_LEN)
-	{
-
-		if(firstToken[0] == 'M')
+	if(check_member_ID(firstToken)) 
+	{ 
+		if(check_equip_ID(secondToken))	
 		{ 
-			for(i = 1; i < strlen(firstToken);i++)
+			for(i = 0; i<strlen(thirdToken);i++)
 			{
-				if(isdigit((int)firstToken[i]) == 0)
+				if(isdigit((int)thirdToken[i]) == 0)
 					return FALSE;
 			}
-			if(strlen(secondToken) == ID_LEN)
-			{
-				if(secondToken[0] == 'E')
-				{
-					for(i = 1; i < strlen(secondToken);i++)
-					{
-						if(isdigit((int)secondToken[i]) == 0)
-							return FALSE;
-					}
-					for(i = 0; i<strlen(thirdToken);i++)
-					{
-						if(isdigit((int)thirdToken[i]) == 0)
-							return FALSE;
-					}
 
+			loanData = malloc(sizeof(struct loan));
+			strcpy(loanData->memID,firstToken);
+			strcpy(loanData->equipID,secondToken);
+			loanData->equipAmt = strtol(thirdToken,NULL,10);
+			add_node(loans,loanData);
+			return TRUE;
 
-					loanData = malloc(sizeof(struct loan));
-					strcpy(loanData->memID,firstToken);
-					strcpy(loanData->equipID,secondToken);
-					loanData->equipAmt = strtol(thirdToken,NULL,10);
-					add_node(loans,loanData);
-					return TRUE;
-
-
-
-				} 
-			} 
-		}
-	} 
+		} 
+	}
+	 
 
 	return FALSE;
 } 
@@ -281,4 +239,40 @@ DATA_TYPE check_type(char * firstToken, char * thirdToken)
 
 
 	return INVALID;
+} 
+
+BOOLEAN check_equip_ID(char * ID)
+{
+	int i;
+
+	if((strlen(ID) == ID_LEN) && (ID[0] == 'E'))
+	{
+		for(i = 1; i < strlen(ID);i++)
+		{
+			if(isdigit((int)ID[i]) == 0)
+				return FALSE;
+		}
+		return TRUE;
+
+	} 
+	
+	return FALSE;
+} 
+
+BOOLEAN check_member_ID(char * ID) 
+{
+	int i;
+
+
+	if(strlen(ID) == ID_LEN && ID[0] == 'M')
+	{ 
+		for(i = 1; i < strlen(ID);i++)
+		{
+			if(isdigit((int)ID[i]) == 0)
+				return FALSE;
+		}
+	} 
+	 
+
+	return TRUE;
 } 

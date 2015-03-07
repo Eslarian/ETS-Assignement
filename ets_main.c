@@ -36,7 +36,7 @@ int main(int argc, char * argv[])
 	menu_init(menu_items);
 
 	do{
-		printf("\n%sEQUIPMENT TRACKING SYSTEM\n--------------------------\n%s",COLOR_TITLE,COLOR_RESET);
+		printf("\n%sEQUIPMENT TRACKING SYSTEM\n%s",COLOR_TITLE,COLOR_RESET);
  		for(i = 0; i < NUM_MENU_ITEMS;i++)
 		{
 			printf("%i. %-5s\n",i+1,menu_items[i].name);

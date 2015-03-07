@@ -13,28 +13,43 @@
 
 int comparison(void * aData, void * bData, OPERATIONS type)
 {	
-	char * aString;
-	char * bString;
-	struct member * memDereference = aData;
+	char * string;
+	/*structs used to dereference the void pointers*/
+	struct member * firstMem;
+	struct member * secondMem;
+	struct loan * firstLoan;
+	struct loan * secondLoan;
+	struct equipment * firstEquip;
+	struct equipment * secondEquip;
+
 
 
 	switch(type)
 	{
 		
-		case SEARCHING_MEMBER:  aString = memDereference->fName;
-					bString = (char *)bData;
-					break;
+		case SEARCHING_MEMBER:	firstMem = aData;
+					string = (char*)bData;
+					return strcmp(firstMem->ID,string);
+										
+		case SEARCHING_EQUIPMENT: firstEquip = aData;
+					  string = (char*)bData;
+					  return strcmp(firstEquip->equipID,string);
 
-		case SEARCHING_EQUIPMENT: break;
+		case SEARCHING_LOAN_MEM: firstLoan = aData;
+				         string = (char*)bData;
+				         return strcmp(firstLoan->memID,string);
 
+		case ADDING_NODE_MEMBER: firstMem = aData;
+					 secondMem = bData;
+					 return strcmp(firstMem->fName,secondMem->fName);
 
-		case SEARCHING_LOAN: break;
+		case ADDING_NODE_EQUIPMENT: firstEquip = aData;
+					    secondEquip = bData;
+					    return strcmp(firstEquip->equipName,secondEquip->equipName);
 
-		case ADDING_NODE_MEMBER: break;
-
-		case ADDING_NODE_EQUIPMENT: break;
-
-		case ADDING_NODE_LOAN:   break;
+		case ADDING_NODE_LOAN: firstLoan = aData;
+				       secondLoan = bData;
+				       return strcmp(firstLoan->memID,secondLoan->memID);
 
 		default: fprintf(stderr,"%sInvalid operations type argument%s",COLOR_TITLE,COLOR_ERROR);
 			 break;

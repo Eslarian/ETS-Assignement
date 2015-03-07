@@ -25,3 +25,5 @@ BOOLEAN check_members(char * firstToken, char * secondToken, char * thirdToken, 
 BOOLEAN check_loans(char * firstToken, char * secondToken, char * thirdToken, struct list * loans);
 BOOLEAN is_valid_string(char * token);
 DATA_TYPE check_type(char * firstToken, char * thirdToken);
+BOOLEAN check_equip_ID(char * ID);
+BOOLEAN check_member_ID(char * ID); 
