@@ -271,8 +271,9 @@ BOOLEAN check_member_ID(char * ID)
 			if(isdigit((int)ID[i]) == 0)
 				return FALSE;
 		}
+		return TRUE;
 	} 
 	 
 
-	return TRUE;
+	return FALSE;
 } 

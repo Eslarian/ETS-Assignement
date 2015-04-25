@@ -1,3 +1,4 @@
+
 /***********************************************************************
  * COSC1076 - Advanced Programming Techniques
  * Summer 2015 Assignment #2
@@ -118,6 +119,7 @@ BOOLEAN query_member_ID(struct ets * ets)
 	struct node * searchnode;
 	struct member * member;
 	struct loan * loan;
+	struct equipment * equipment;
 	BOOLEAN valid = FALSE;
 
 	printf("\n%sQuery Members\n%s",COLOR_TITLE,COLOR_RESET);
@@ -143,10 +145,11 @@ BOOLEAN query_member_ID(struct ets * ets)
 	for(i = 0; i < ets->members->count;i++)
 	{
 		searchnode = searchnode->next;
+		if(searchnode != NULL)
+		{ 
 		if(comparison(searchnode->data,input,SEARCHING_MEMBER) == 0)
 		{
 			member = searchnode->data;
-			printf("%s%s\t%s\t%s\n%s",COLOR_RESULTS,member->ID,member->fName,member->lName,COLOR_RESET);
 			break;
 		} 
 		if((i == ets->members->count) && (comparison(searchnode,input,SEARCHING_MEMBER) != 0)) 
@@ -154,29 +157,47 @@ BOOLEAN query_member_ID(struct ets * ets)
 			fprintf(stderr,"%sError: ID not found%s\n",COLOR_ERROR,COLOR_RESET); 
 			return FALSE;
 		} 
+		} 
+		else if(searchnode = NULL)
+		{
+			fprintf(stderr,"%sError: ID not found%s\n",COLOR_ERROR,COLOR_RESET); 
+			return FALSE;
+		} 
+
 	} 
 
 	/*Searching through loan list to print relevant member's loan data*/
 	searchnode = ets->loans->head;
 	for(i = 0; i < ets->loans->count;i++)
 	{
-		searchnode = searchnode->next;
-		if(comparison(searchnode->data,member->ID,SEARCHING_LOAN_MEM) == 0)
+			
+		if(searchnode->next != NULL)
 		{
-			valid = TRUE;
-			loan = searchnode->data;
-			printf("%s%s\t%s\t%s\t%i\n%s",COLOR_RESULTS,loan->memID,member->fName,member->lName,loan->equipAmt,COLOR_RESET);
-			break;
-		} 
-		if((i == ets->loans->count) && (comparison(searchnode,input,SEARCHING_LOAN_MEM) != 0))
-		{
-			printf("This members doesn't have any items on loan");
+			searchnode = searchnode->next;
 
+
+			if(comparison(searchnode->data,member->ID,SEARCHING_LOAN_MEM) == 0)
+			{
+				valid = TRUE;
+				loan = searchnode->data;
+				printf("%s%s\t%s\t%s\t%i\n%s",COLOR_RESULTS,loan->memID,member->fName,member->lName,loan->equipAmt,COLOR_RESET);
+				break;
+			} 
+			if((i == ets->loans->count) && (comparison(searchnode,input,SEARCHING_LOAN_MEM) != 0))  
+			{
+				printf("This members doesn't have any items on loan");	
+				break;
+			} 
+		} 
+		else
+		{
+			printf("This members doesn't have any items on loan");	
+			break;
 		} 
 	} 
 
 	/*Searching through equipment list to print relevant equipment data of the loan*/
-	if(loan->next != NULL)
+	if(searchnode != NULL)
 	{ 
 		searchnode = ets->equipment->head;
 		for(i = 0; i < ets->equipment->count;i++)
@@ -184,7 +205,13 @@ BOOLEAN query_member_ID(struct ets * ets)
 			searchnode = searchnode->next;
 			if(comparison(searchnode->data,loan->equipID,SEARCHING_EQUIPMENT) == 0)
 			{
-					
+						
+				equipment = searchnode->data;
+				printf("%s\t%s\t%s\t%i\n%s",COLOR_RESULTS,equipment->equipID,equipment->equipName,loan->equipAmt,COLOR_RESET);
+				break;
+			} 
+		} 
+	} 
 
 	}while(!valid);	
 	
