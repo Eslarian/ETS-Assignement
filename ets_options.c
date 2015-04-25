@@ -147,18 +147,18 @@ BOOLEAN query_member_ID(struct ets * ets)
 		searchnode = searchnode->next;
 		if(searchnode != NULL)
 		{ 
-		if(comparison(searchnode->data,input,SEARCHING_MEMBER) == 0)
-		{
-			member = searchnode->data;
-			break;
+			if(comparison(searchnode->data,input,SEARCHING_MEMBER) == 0)
+			{
+				member = searchnode->data;
+				break;
+			} 
+			if((i == ets->members->count) && (comparison(searchnode,input,SEARCHING_MEMBER) != 0)) 
+			{
+				fprintf(stderr,"%sError: ID not found%s\n",COLOR_ERROR,COLOR_RESET); 
+				return FALSE;
+			} 
 		} 
-		if((i == ets->members->count) && (comparison(searchnode,input,SEARCHING_MEMBER) != 0)) 
-		{
-			fprintf(stderr,"%sError: ID not found%s\n",COLOR_ERROR,COLOR_RESET); 
-			return FALSE;
-		} 
-		} 
-		else if(searchnode = NULL)
+		else if(searchnode == NULL)
 		{
 			fprintf(stderr,"%sError: ID not found%s\n",COLOR_ERROR,COLOR_RESET); 
 			return FALSE;
