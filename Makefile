@@ -16,12 +16,10 @@ HEADERS=*h
 ###################################
 # put your Makefile targets in here
 ###################################
-all: $(TARGETS) 
-
-warning: *.c
+all: *.c
 	$(CC) $(CFLAGS) $^ -o ETS
 
-ETS: ets_main.o ets_menu.o ets_options.o file_load.o list.o compare.o ets_utility.o
+ETS: ets_main.o ets_menu.o ets_options.o file_load.o list.o compare.o ets_utility.o  
 	$(CC) $(CFLAGS) $^ -o $@
 
 ets_main.o:ets_main.c ets_menu.h
@@ -44,6 +42,9 @@ compare.o:compare.c compare.h ets_utility.h
 
 ets_utility.o:ets_utility.c ets_utility.h ets_type.h
 	$(CC) $(CFLAGS) -c ets_utility.c
+
+run:
+	make; ./ETS equip.dat member.dat loan.dat
 
 .PHONY:clean
 

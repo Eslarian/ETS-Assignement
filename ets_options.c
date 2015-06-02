@@ -1,4 +1,3 @@
-
 /***********************************************************************
  * COSC1076 - Advanced Programming Techniques
  * Summer 2015 Assignment #2
@@ -92,7 +91,7 @@ BOOLEAN query_equip_ID(struct ets * ets)
 	searchnode = ets->equipment->head;
 	for(i = 0; i < ets->equipment->count;i++)
 	{
-		searchnode = searchnode->next;
+	
 		if(comparison(searchnode->data,input,SEARCHING_EQUIPMENT) == 0)
 		{
 			valid = TRUE;
@@ -100,11 +99,12 @@ BOOLEAN query_equip_ID(struct ets * ets)
 			printf("%s%s\t%s\t%i\n%s",COLOR_RESULTS,equipment->equipID,equipment->equipName,equipment->amount,COLOR_RESET);
 			break;
 		} 
-		if((i == ets->equipment->count) && (comparison(searchnode,input,SEARCHING_EQUIPMENT) != 0)) 
+		if((i == ets->equipment->count-1) && (comparison(searchnode->data,input,SEARCHING_EQUIPMENT) != 0)) 
 		{
 			fprintf(stderr,"%sError: ID not found%s\n",COLOR_ERROR,COLOR_RESET); 
 			return FALSE;
 		} 
+		searchnode = searchnode->next;
 	} 
 
 	
@@ -144,7 +144,7 @@ BOOLEAN query_member_ID(struct ets * ets)
 	searchnode = ets->members->head;
 	for(i = 0; i < ets->members->count;i++)
 	{
-		searchnode = searchnode->next;
+		
 		if(searchnode != NULL)
 		{ 
 			if(comparison(searchnode->data,input,SEARCHING_MEMBER) == 0)
@@ -162,7 +162,8 @@ BOOLEAN query_member_ID(struct ets * ets)
 		{
 			fprintf(stderr,"%sError: ID not found%s\n",COLOR_ERROR,COLOR_RESET); 
 			return FALSE;
-		} 
+		}
+		searchnode = searchnode->next;
 
 	} 
 

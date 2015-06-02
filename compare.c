@@ -7,7 +7,7 @@
  * Program Code     : BP096
  * Start up code provided by David Shaw
  * Based on 2014 code by Paul Miller and Virginia King
- **********************************************************************/
+ *********************************************************************/
 
 #include "compare.h"
 
