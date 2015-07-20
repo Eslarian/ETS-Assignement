@@ -29,7 +29,7 @@ BOOLEAN loan_equipment(struct ets * ets)
 	do{
 
 	comparison(aData,bData,SEARCHING_MEMBER);
-	printf("Please enter a memmber ID: \n");
+	printf("Please enter a member ID: \n");
 	fgets(memID,ID_LEN+2,stdin);
 	if(RROL(memID) != '\n')
 	{
@@ -63,7 +63,7 @@ BOOLEAN return_equipment(struct ets * ets)
 } 
 BOOLEAN query_equip_ID(struct ets * ets)
 {
-	char  input[ID_LEN+1];
+	char  input[ID_LEN+2];
 	int i;
 	struct node * searchnode;
 	struct equipment * equipment;
@@ -74,10 +74,10 @@ BOOLEAN query_equip_ID(struct ets * ets)
 	do{
 
 	printf("Please enter an Equipment ID to search for:\n");
-	fgets(input,ID_LEN+1,stdin);
+	fgets(input,ID_LEN+2,stdin);
 
 	if(RROL(input) != '\n')
-	read_rest_of_line();
+		read_rest_of_line();
 
 	/*Check if the entered ID is in correct format*/
 	if(!check_equip_ID(input)) 
@@ -114,7 +114,7 @@ BOOLEAN query_equip_ID(struct ets * ets)
 } 
 BOOLEAN query_member_ID(struct ets * ets)
 {
-	char  input[ID_LEN+1];
+	char  input[ID_LEN+2];
 	int i;
 	struct node * searchnode;
 	struct member * member;
@@ -127,7 +127,7 @@ BOOLEAN query_member_ID(struct ets * ets)
 	do{
 
 	printf("Please enter a member ID to search for:\n");
-	fgets(input,ID_LEN+1,stdin);
+	fgets(input,ID_LEN+2,stdin);
 
 	if(RROL(input) != '\n')
 	read_rest_of_line();
@@ -142,7 +142,7 @@ BOOLEAN query_member_ID(struct ets * ets)
 
 	/*Searching through member list to check if member exist*/
 	searchnode = ets->members->head;
-	for(i = 0; i < ets->members->count;i++)
+	for(i = 0; i < ets->members->count+1;i++)
 	{
 		
 		if(searchnode != NULL)
@@ -152,13 +152,8 @@ BOOLEAN query_member_ID(struct ets * ets)
 				member = searchnode->data;
 				break;
 			} 
-			if((i == ets->members->count) && (comparison(searchnode,input,SEARCHING_MEMBER) != 0)) 
-			{
-				fprintf(stderr,"%sError: ID not found%s\n",COLOR_ERROR,COLOR_RESET); 
-				return FALSE;
-			} 
 		} 
-		else if(searchnode == NULL)
+		else 	
 		{
 			fprintf(stderr,"%sError: ID not found%s\n",COLOR_ERROR,COLOR_RESET); 
 			return FALSE;
@@ -169,14 +164,12 @@ BOOLEAN query_member_ID(struct ets * ets)
 
 	/*Searching through loan list to print relevant member's loan data*/
 	searchnode = ets->loans->head;
-	for(i = 0; i < ets->loans->count;i++)
+	for(i = 0; i < ets->loans->count+1;i++)
 	{
 			
-		if(searchnode->next != NULL)
+		if(searchnode != NULL)
 		{
-			searchnode = searchnode->next;
-
-
+			
 			if(comparison(searchnode->data,member->ID,SEARCHING_LOAN_MEM) == 0)
 			{
 				valid = TRUE;
@@ -184,35 +177,36 @@ BOOLEAN query_member_ID(struct ets * ets)
 				printf("%s%s\t%s\t%s\t%i\n%s",COLOR_RESULTS,loan->memID,member->fName,member->lName,loan->equipAmt,COLOR_RESET);
 				break;
 			} 
-			if((i == ets->loans->count) && (comparison(searchnode,input,SEARCHING_LOAN_MEM) != 0))  
+		/*	if((i == ets->loans->count) && (comparison(searchnode,input,SEARCHING_LOAN_MEM) != 0))  
 			{
 				printf("This members doesn't have any items on loan");	
 				break;
-			} 
+			} */
 		} 
 		else
 		{
+			printf("%s%s\t%s\t%s%s\n",COLOR_RESULTS,member->ID,member->fName,member->lName,COLOR_RESET);
 			printf("This members doesn't have any items on loan");	
-			break;
-		} 
+			return FALSE;
+		}
+		searchnode = searchnode->next;
+
 	} 
 
 	/*Searching through equipment list to print relevant equipment data of the loan*/
-	if(searchnode != NULL)
-	{ 
-		searchnode = ets->equipment->head;
-		for(i = 0; i < ets->equipment->count;i++)
+	searchnode = ets->equipment->head;
+	for(i = 0; i < ets->equipment->count;i++)
+	{
+		searchnode = searchnode->next;
+		if(comparison(searchnode->data,loan->equipID,SEARCHING_EQUIPMENT) == 0)
 		{
-			searchnode = searchnode->next;
-			if(comparison(searchnode->data,loan->equipID,SEARCHING_EQUIPMENT) == 0)
-			{
-						
-				equipment = searchnode->data;
-				printf("%s\t%s\t%s\t%i\n%s",COLOR_RESULTS,equipment->equipID,equipment->equipName,loan->equipAmt,COLOR_RESET);
-				break;
-			} 
+					
+			equipment = searchnode->data;
+			printf("%s\t%s\t%s\t%i\n%s",COLOR_RESULTS,equipment->equipID,equipment->equipName,loan->equipAmt,COLOR_RESET);
+			break;
 		} 
 	} 
+	 
 
 	}while(!valid);	
 	
@@ -296,6 +290,26 @@ BOOLEAN save_and_exit(struct ets * ets)
 } 
 BOOLEAN add_equipment(struct ets * ets)
 {
+	char input[ID_LEN+2];
+	BOOLEAN valid;
+
+	do{
+
+		valid = TRUE;
+		printf("Please enter the new equipment ID\n");
+		fgets(input,ID_LEN+2,stdin); 
+
+		if(RROL(input) != '\n')
+			read_rest_of_line();
+
+		if(!check_equip_ID(input)) 
+		{
+			fprintf(stderr,"%sError: Invalid ID, please enter correct format%s\n",COLOR_ERROR,COLOR_RESET); 
+ 			valid = FALSE;
+		} 
+			
+	}while(!valid);
+
 	UNUSED(ets);
 	return FALSE;
 } 

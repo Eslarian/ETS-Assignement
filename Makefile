@@ -46,6 +46,11 @@ ets_utility.o:ets_utility.c ets_utility.h ets_type.h
 run:
 	make; ./ETS equip.dat member.dat loan.dat
 
+valgrind: 
+	make; valgrind --track-origins=yes ./ETS equip.dat member.dat loan.dat
+gdb:
+	make; gdb ./ETS 
+
 .PHONY:clean
 
 clean:

@@ -244,6 +244,9 @@ DATA_TYPE check_type(char * firstToken, char * thirdToken)
 BOOLEAN check_equip_ID(char * ID)
 {
 	int i;
+	
+	if(RROL(ID) == '\n') 
+		RROL(ID) = '\0';
 
 	if((strlen(ID) == ID_LEN) && (ID[0] == 'E'))
 	{
@@ -263,6 +266,8 @@ BOOLEAN check_member_ID(char * ID)
 {
 	int i;
 
+	if(RROL(ID) == '\n') 
+		RROL(ID) = '\0';
 
 	if(strlen(ID) == ID_LEN && ID[0] == 'M')
 	{ 
