@@ -2,3 +2,5 @@
 *.swp
 *.stackdump
 *.o
+ETS
+*.exe

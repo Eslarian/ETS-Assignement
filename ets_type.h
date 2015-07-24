@@ -35,7 +35,7 @@ struct ets
 /*Data struct for loan information*/
 struct loan
 {
-	char memID[ID_LEN+1];
+	char memID[ID_LEN+2];
 	char equipID[ID_LEN+1];
 	int equipAmt;
 }; 
@@ -43,7 +43,7 @@ struct loan
 /*Data struct for equipment information*/
 struct equipment
 {
-	char equipID[ID_LEN+1];
+	char equipID[ID_LEN+2];
 	char equipName[NAME_LEN+1];
 	int amount;
 }; 
@@ -51,7 +51,7 @@ struct equipment
 /*Data struct for member information*/
 struct member
 {
-	char ID[ID_LEN+1];
+	char ID[ID_LEN+2];
 	char fName[NAME_LEN+1];
 	char lName[NAME_LEN+1];
 }; 

@@ -65,7 +65,7 @@ BOOLEAN query_equip_ID(struct ets * ets)
 {
 	char  input[ID_LEN+2];
 	int i;
-	struct node * searchNode;
+	struct node * searchnode;
 	struct equipment * equipment;
 	BOOLEAN valid = FALSE;
 
@@ -88,23 +88,23 @@ BOOLEAN query_equip_ID(struct ets * ets)
 	} 
 
 	/*Search through the equipment list to check if the equipment exists*/
-	searchNode = ets->equipment->head;
+	searchnode = ets->equipment->head;
 	for(i = 0; i < ets->equipment->count;i++)
 	{
 	
-		if(comparison(searchNode->data,input,SEARCHING_EQUIPMENT) == 0)
+		if(comparison(searchnode->data,input,SEARCHING_EQUIPMENT) == 0)
 		{
 			valid = TRUE;
-			equipment = searchNode->data;
+			equipment = searchnode->data;
 			printf("%s%s\t%s\t%i\n%s",COLOR_RESULTS,equipment->equipID,equipment->equipName,equipment->amount,COLOR_RESET);
 			break;
 		} 
-		if((i == ets->equipment->count-1) && (comparison(searchNode->data,input,SEARCHING_EQUIPMENT) != 0)) 
+		if((i == ets->equipment->count-1) && (comparison(searchnode->data,input,SEARCHING_EQUIPMENT) != 0)) 
 		{
 			fprintf(stderr,"%sError: ID not found%s\n",COLOR_ERROR,COLOR_RESET); 
 			return FALSE;
 		} 
-		searchNode = searchNode->next;
+		searchnode = searchnode->next;
 	} 
 
 	
@@ -177,6 +177,11 @@ BOOLEAN query_member_ID(struct ets * ets)
 				printf("%s%s\t%s\t%s\t%i\n%s",COLOR_RESULTS,loan->memID,member->fName,member->lName,loan->equipAmt,COLOR_RESET);
 				break;
 			} 
+		/*	if((i == ets->loans->count) && (comparison(searchnode,input,SEARCHING_LOAN_MEM) != 0))  
+			{
+				printf("This members doesn't have any items on loan");	
+				break;
+			} */
 		} 
 		else
 		{
@@ -286,9 +291,7 @@ BOOLEAN save_and_exit(struct ets * ets)
 BOOLEAN add_equipment(struct ets * ets)
 {
 	/*ID has to have extra spaces for newline otherwise a string that is too long could be cut off and still be read 'correcty'*/
-	struct equipment * equip = malloc(sizeof(struct equipment));
-	int i;
-	struct node * searchNode;
+	struct equipment equip;
 	/*Used to contain up to 3 digit INT for conversion*/
 	char amount[4];
 	char * endptr;
@@ -298,27 +301,15 @@ BOOLEAN add_equipment(struct ets * ets)
 
 		valid = TRUE;
 		printf("Please enter the new equipment ID\n");
-		fgets(equip->equipID,ID_LEN+2,stdin); 
+		fgets(equip.equipID,ID_LEN+2,stdin); 
 
-		if(RROL(equip->equipID) != '\n')
+		if(RROL(equip.equipID) != '\n')
 			read_rest_of_line();
 
-		if(!check_equip_ID(equip->equipID)) 
+		if(!check_equip_ID(equip.equipID)) 
 		{
 			fprintf(stderr,"%sError: Invalid ID, please enter correct format%s\n",COLOR_ERROR,COLOR_RESET); 
  			valid = FALSE;
-		}
-		
-		searchNode = ets->equipment->head;
-		for(i = 0; i < ets->equipment->count;i++)
-		{
-	
-			if(comparison(searchNode->data,equip->equipID,SEARCHING_EQUIPMENT) == 0)
-			{
-				valid = FALSE;
-				fprintf(stderr,"%sError: ID alrady in use, please enter a different one%s\n",COLOR_ERROR,COLOR_RESET); 
-			}		
-			searchNode = searchNode->next;
 		} 
 			
 	}while(!valid);
@@ -327,12 +318,12 @@ BOOLEAN add_equipment(struct ets * ets)
 		
 		valid = TRUE;
 		printf("Please enter new equipment name\n");
-		fgets(equip->equipName,NAME_LEN+1,stdin);
+		fgets(equip.equipName,NAME_LEN+1,stdin);
 
-		if(RROL(equip->equipName) != '\n')
+		if(RROL(equip.equipName) != '\n')
 			read_rest_of_line();
 
-		if(equip->equipName[0] == '\n')
+		if(equip.equipName[0] == '\n')
 		{
 			fprintf(stderr,"%sError: No name entered, please enter a new equipment name%s\n",COLOR_ERROR,COLOR_RESET);
 			valid = FALSE;
@@ -342,27 +333,26 @@ BOOLEAN add_equipment(struct ets * ets)
 
 	do{
 		
-		valid = TRUE;
-		endptr = NULL;
+		valid = TRUE:
 		printf("Please enter new equipment amount\n");
 		fgets(amount,4,stdin);
 		
 		if(RROL(amount) != '\n')
 			read_rest_of_line();
 
-		equip->amount = strtol(amount,&endptr,10);
+		equip.amount = strtol(amount,endptr,10);
 		
-		if(endptr[0] != '\n')
+		if(endptr)
 		{
 			valid = FALSE;
 			fprintf(stderr,"%sError: invalid amount entered, integers only up to three digits%s\n",COLOR_ERROR,COLOR_RESET);
 		} 
 
-	}while(!valid);	
-	
-	add_node(ets->equipment,equip);
+	}while(!valid);
 
 
+
+	UNUSED(ets);
 	return FALSE;
 } 
 BOOLEAN change_equipment(struct ets * ets)
